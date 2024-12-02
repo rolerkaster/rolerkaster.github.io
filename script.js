@@ -67,18 +67,6 @@ document.getElementById('clearButton').addEventListener('click', function() {
    actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Сохраняем состояние после очистки
 });
 
-// Отмена последнего действия
-document.getElementById('undoButton').addEventListener('click', function() {
-   if (actions.length > 0) {
-       actions.pop(); // Убираем последнее действие из массива
-       if (actions.length > 0) {
-           ctx.putImageData(actions[actions.length - 1], 0, 0); // Возвращаем предыдущее состояние канваса
-       } else {
-           ctx.clearRect(0, 0, canvas.width, canvas.height); // Если нет действий, очищаем канвас
-       }
-   }
-});
-
 // Переключение режима ластика
 document.getElementById('eraserButton').addEventListener('click', function() {
    eraserMode = !eraserMode; // Переключаем режим ластика
