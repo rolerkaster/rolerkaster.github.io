@@ -1,35 +1,20 @@
-/* styles.css */
-
-/* Сброс стилей */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     background-color: #f7f7f7; /* Светлый фон для контраста */
-    height: 100vh; /* Занимает всю высоту экрана */
-    overflow: hidden; /* Скрывает прокрутку */
 }
 
-/* Стили для панели инструментов */
 .toolbar {
     margin: 20px;
     display: flex;
     flex-wrap: wrap; /* Позволяет кнопкам переноситься на новую строку при необходимости */
     justify-content: center; /* Центрируем кнопки в панели инструментов */
-    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный фон для панели */
-    border-radius: 10px; /* Закругленные углы */
-    padding: 10px; /* Отступы внутри панели */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень для панели */
 }
 
-/* Стили для кнопок */
 button {
     margin: 5px; /* Уменьшаем отступы между кнопками */
     padding: 10px 15px;
@@ -39,33 +24,20 @@ button {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s; /* Плавный переход цвета фона */
-    font-size: 14px; /* Размер шрифта для кнопок */
 }
 
 button:hover {
     background-color: #45a049; /* Более темный зеленый при наведении */
 }
 
-/* Стили для элементов управления */
 input[type="color"], input[type="range"], select {
     margin-left: 10px; /* Отступ слева для элементов управления */
-    border: 1px solid #ccc; /* Граница для элементов */
-    border-radius: 5px; /* Закругленные углы */
-    padding: 5px; /* Отступы внутри элементов */
-    background-color: #fff; /* Белый фон для элементов */
 }
 
-/* Стили для канваса */
 canvas {
     border: 1px solid #000;
     background-color: #ffffff; /* Белый фон канваса для лучшей видимости */
-    flex-grow: 1; /* Занимает оставшееся пространство */
-    width: 100%; /* Ширина канваса на 100% */
-    max-width: 600px; /* Максимальная ширина канваса */
-    border-radius: 10px; /* Закругленные углы канваса */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень для канваса */
 }
-
 @media (max-width: 768px) { 
     body { padding: 10px; 
     }
