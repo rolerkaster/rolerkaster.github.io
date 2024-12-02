@@ -12,34 +12,34 @@ let actions = []; // Массив для хранения состояний к�
 let eraserMode = false; // Режим ластика
 
 function startPosition(e) {
-    painting = true;
-    draw(e);
+   painting = true;
+   draw(e);
 }
 
 function endPosition() {
-    painting = false;
-    ctx.beginPath(); // Начинаем новый путь
+   painting = false;
+   ctx.beginPath(); // Начинаем новый путь
 }
 
 function draw(e) {
-    if (!painting) return;
+   if (!painting) return;
 
-    ctx.lineWidth = brushSize; // Установка размера кисти
-    ctx.lineCap = brushType; // Установка типа кисти (круглая или квадратная)
-    
-    if (eraserMode) {
-        ctx.strokeStyle = "#FFFFFF"; // Цвет фона для ластика (белый)
-    } else {
-        ctx.strokeStyle = brushColor; // Установка цвета кисти
-    }
+   ctx.lineWidth = brushSize; // Установка размера кисти
+   ctx.lineCap = brushType; // Установка типа кисти (круглая или квадратная)
+   
+   if (eraserMode) {
+       ctx.strokeStyle = "#FFFFFF"; // Цвет фона для ластика (белый)
+   } else {
+       ctx.strokeStyle = brushColor; // Установка цвета кисти
+   }
 
-    ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-    ctx.stroke(); // Рисуем линию
-    ctx.beginPath(); // Начинаем новый путь
-    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop); // Перемещаемся в новую точку
+   ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+   ctx.stroke(); // Рисуем линию
+   ctx.beginPath(); // Начинаем новый путь
+   ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop); // Перемещаемся в новую точку
 
-    // Сохраняем текущее состояние канваса для возможности отмены
-    actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+   // Сохраняем текущее состояние канваса для возможности отмены
+   actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
 }
 
 // События мыши
@@ -49,24 +49,35 @@ canvas.addEventListener('mousemove', draw);
 
 // Изменение цвета и размера кисти
 document.getElementById('colorPicker').addEventListener('input', function() {
-    brushColor = this.value;
+   brushColor = this.value;
 });
 
 document.getElementById('brushSize').addEventListener('input', function() {
-    brushSize = this.value;
+   brushSize = this.value;
 });
 
 // Изменение типа кисти
 document.getElementById('brushType').addEventListener('change', function() {
-    brushType = this.value;
+   brushType = this.value;
 });
 
 // Очистка канваса
 document.getElementById('clearButton').addEventListener('click', function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Очистка всего канваса
+   ctx.clearRect(0, 0, canvas.width, canvas.height); // Очистка всего канваса
+   actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height)); // Сохраняем состояние после очистки
 });
 
-
+// Отмена последнего действия
+document.getElementById('undoButton').addEventListener('click', function() {
+   if (actions.length > 0) {
+       actions.pop(); // Убираем последнее действие из массива
+       if (actions.length > 0) {
+           ctx.putImageData(actions[actions.length - 1], 0, 0); // Возвращаем предыдущее состояние канваса
+       } else {
+           ctx.clearRect(0, 0, canvas.width, canvas.height); // Если нет действий, очищаем канвас
+       }
+   }
+});
 
 // Переключение режима ластика
 document.getElementById('eraserButton').addEventListener('click', function() {
