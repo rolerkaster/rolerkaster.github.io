@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaintBot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="toolbar">
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="range" id="brushSize" min="1" max="50" value="5">
+        <select id="brushType">
+            <option value="round">Круглая кисть</option>
+            <option value="square">Квадратная кисть</option>
+        </select>
+        <button id="clearButton">Очистить</button>
+        <button id="eraserButton">Ластик</button> 
+    </div>
+    <canvas id="drawingCanvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
