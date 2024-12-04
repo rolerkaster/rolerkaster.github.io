@@ -12,40 +12,55 @@ let actions = []; // Массив для хранения состояний к�
 let eraserMode = false; // Режим ластика
 
 function startPosition(e) {
-   painting = true;
-   draw(e);
+    painting = true;
+    draw(e);
 }
 
 function endPosition() {
-   painting = false;
-   ctx.beginPath(); // Начинаем новый путь
+    painting = false;
+    ctx.beginPath(); // Начинаем новый путь
 }
 
 function draw(e) {
-   if (!painting) return;
+    if (!painting) return;
 
-   ctx.lineWidth = brushSize; // Установка размера кисти
-   ctx.lineCap = brushType; // Установка типа кисти (круглая или квадратная)
-   
-   if (eraserMode) {
-       ctx.strokeStyle = "#FFFFFF"; // Цвет фона для ластика (белый)
-   } else {
-       ctx.strokeStyle = brushColor; // Установка цвета кисти
-   }
+    // Определяем координаты в зависимости от типа события (мышь или касание)
+    let x, y;
+    if (e.touches) { // Для событий касания
+        x = e.touches[0].clientX - canvas.offsetLeft;
+        y = e.touches[0].clientY - canvas.offsetTop;
+    } else { // Для событий мыши
+        x = e.clientX - canvas.offsetLeft;
+        y = e.clientY - canvas.offsetTop;
+    }
 
-   ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-   ctx.stroke(); // Рисуем линию
-   ctx.beginPath(); // Начинаем новый путь
-   ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop); // Перемещаемся в новую точку
+    ctx.lineWidth = brushSize; // Установка размера кисти
+    ctx.lineCap = brushType; // Установка типа кисти (круглая или квадратная)
 
-   // Сохраняем текущее состояние канваса для возможности отмены
-   actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    if (eraserMode) {
+        ctx.strokeStyle = "#FFFFFF"; // Цвет фона для ластика (белый)
+    } else {
+        ctx.strokeStyle = brushColor; // Установка цвета кисти
+    }
+
+    ctx.lineTo(x, y);
+    ctx.stroke(); // Рисуем линию
+    ctx.beginPath(); // Начинаем новый путь
+    ctx.moveTo(x, y); // Перемещаемся в новую точку
+
+    // Сохраняем текущее состояние канваса для возможности отмены
+    actions.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
 }
 
 // События мыши
 canvas.addEventListener('mousedown', startPosition);
 canvas.addEventListener('mouseup', endPosition);
 canvas.addEventListener('mousemove', draw);
+
+// События касания для мобильных устройств
+canvas.addEventListener('touchstart', startPosition);
+canvas.addEventListener('touchend', endPosition);
+canvas.addEventListener('touchmove', draw);
 
 // Изменение цвета и размера кисти
 document.getElementById('colorPicker').addEventListener('input', function() {
