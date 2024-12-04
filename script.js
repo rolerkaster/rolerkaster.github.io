@@ -58,9 +58,15 @@ canvas.addEventListener('mouseup', endPosition);
 canvas.addEventListener('mousemove', draw);
 
 // События касания для мобильных устройств
-canvas.addEventListener('touchstart', startPosition);
+canvas.addEventListener('touchstart', function(e) {
+    e.preventDefault(); // Предотвращаем прокрутку страницы
+    startPosition(e);
+});
 canvas.addEventListener('touchend', endPosition);
-canvas.addEventListener('touchmove', draw);
+canvas.addEventListener('touchmove', function(e) {
+    e.preventDefault(); // Предотвращаем прокрутку страницы
+    draw(e);
+});
 
 // Изменение цвета и размера кисти
 document.getElementById('colorPicker').addEventListener('input', function() {
